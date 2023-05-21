@@ -2,12 +2,12 @@
     <img src="assets/logo2.png"/>
 </p>
 <p align="center">
-<b>Generate vivid Images for <i>Any</i> (Chinese / English) text</b>
+<b>Generate vivid Images for Chinese / English text</b>
 </p>
 
 CogView2 is a hierarchical transformer (6B-9B-9B parameters) for text-to-image generation in general domain. This implementation is based on the [SwissArmyTransformer](https://github.com/THUDM/SwissArmyTransformer) library (v0.2).
 
-* **Read** our paper [CogView2: Faster and Better Text-to-Image Generation via Hierarchical Transformers](https://arxiv.org/pdf/2105.13290.pdf) on ArXiv for a formal introduction. The *LoPAR* accelarate the generation and *CogLM* enables the model for bidirectional completion.
+* **Read** our paper [CogView2: Faster and Better Text-to-Image Generation via Hierarchical Transformers](https://arxiv.org/abs/2204.14217) on ArXiv for a formal introduction. The *LoPAR* accelarate the generation and *CogLM* enables the model for bidirectional completion.
 * **Run** our pretrained models from text-to-image generation or text-guided completion! Please use A100 GPU.
 * **Cite** our paper if you find our work is helpful~ 
 ```
@@ -18,6 +18,12 @@ CogView2 is a hierarchical transformer (6B-9B-9B parameters) for text-to-image g
   year={2022}
 }
 ```
+
+## Web Demo
+
+- Thank the Huggingface team for integrating CogView2 into [Huggingface Spaces 🤗](https://huggingface.co/spaces) using [Gradio](https://github.com/gradio-app/gradio). Try out the Web Demo: [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/THUDM/CogView2)
+
+- Thank the Replicate team to deploy a web demo! Try at [![Replicate](https://replicate.com/thudm/cogview2/badge)](https://replicate.com/thudm/cogview2) .
 
 ## Getting Started
 ### Setup
@@ -31,11 +37,11 @@ cd Image-Local-Attention && python setup.py install
 If you don't install this kernel, you can also run the first stage (20*20 tokens) via `--only-first-stage` for text-to-image generation.
 
 ### Download
-Our code will automatically download or detect the models into the path defined by envrionment variable `SAT_HOME`. You can download from [here](https://model.baai.ac.cn/model-detail/100041) and place them (folders named `coglm`/`dsr`/`itersr`) under `SAT_HOME`. 
+Our code will automatically download or detect the models into the path defined by envrionment variable `SAT_HOME`. You can download from [here](https://model.baai.ac.cn/model-detail/100041) and place them (folders named `coglm`/`cogview2-dsr`/`cogview2-itersr`) under `SAT_HOME`. 
 
 ### Text-to-Image Generation
 ```
-./script/text2image.sh --input-source input.txt
+./text2image.sh --input-source input.txt
 ```
 Arguments useful in inference are mainly:
 * `--input-source [path or "interactive"]`. The path of the input file, can also be "interactive", which will launch a CLI.
@@ -55,9 +61,12 @@ Chinese input is usually much better than English input.
 
 ### Text-guided Completion
 ```
-./script/text_guided_completion.sh --input-source input_comp.txt
+./text_guided_completion.sh --input-source input_comp.txt
 ```
 The format of input is `text	image_path	h0	w0	h1	w1`, where all the separation are **TAB** (**NOT space**). The image at `image_path` will be center-cropped to `480*480` pixels and mask the square from `(h0,w0)`to `(h1,w1)`. These coordinations are range from 0 to 1. The model will fill the square with object described in `text`. Please use a square much **larger than the desired region**.  
+<img width="741" alt="comp_pipeline" src="https://user-images.githubusercontent.com/9153807/174002452-3670850f-b234-4515-8ac8-2971de26f78a.png">
 
 ## Gallery
+
+
 ![more_samples](https://github.com/THUDM/CogView2/files/8553662/big.1.pdf)
